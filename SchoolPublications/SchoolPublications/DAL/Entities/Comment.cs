@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace SchoolPublications.DAL.Entities
 {
-    public class Comments: Entity
+    public class Comment: Entity
     {
         [Display(Name = "Comentarios")]
         [MaxLength(100, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]

@@ -13,16 +13,19 @@ namespace SchoolPublications.DAL
 
         public DbSet<Approval> Aprovals { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Comments> Comments { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<Publication> Publications { get; set; }
-        public DbSet<User> Users { get; set; }
+        //public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
-            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique(); 
-          
+            modelBuilder.Entity<Publication>().HasIndex("Id", "Category.Id").IsUnique();
+            modelBuilder.Entity<Approval>().HasIndex("Id", "Publication.Id").IsUnique();
+            modelBuilder.Entity<Comment>().HasIndex("Id", "Publication.Id").IsUnique();
+            //modelBuilder.Entity<Notification>().HasIndex("Id", "Approval.Id").IsUnique();
+
         }
 
     }

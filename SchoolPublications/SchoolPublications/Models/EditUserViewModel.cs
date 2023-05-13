@@ -1,12 +1,10 @@
-﻿
+﻿using SchoolPublications.DAL.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection.Metadata;
-using Microsoft.AspNetCore.Identity;
-using SchoolPublications.Enums;
 
-namespace SchoolPublications.DAL.Entities
+namespace SchoolPublications.Models
 {
-    public class User: IdentityUser
+    public class EditUserViewModel : Entity
     {
         [Display(Name = "Documento")]
         [MaxLength(20, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
@@ -26,23 +24,13 @@ namespace SchoolPublications.DAL.Entities
         [Display(Name = "Foto")]
         public Guid ImageId { get; set; }
 
+        //TODO: Pending to put the correct paths
         [Display(Name = "Foto")]
         public string ImageFullPath => ImageId == Guid.Empty
-            ? $"https://localhost:7048/images/NoImage.png"
+            ? $"https://localhost:7048/images/noimage.png"
             : $"https://sales2023.blob.core.windows.net/users/{ImageId}";
 
-        [Display(Name = "Tipo de usuario")]
-        public UserType UserType { get; set; }
-
-        [Display(Name = "Fecha de ingreso")]
-        public DateTime? AdmissionDate { get; set; }
-
-        //Propiedades de Lectura
-        [Display(Name = "Usuario")]
-        public string FullName => $"{FirstName} {LastName}";
-
-        [Display(Name = "Usuario")]
-        public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";
-
+        [Display(Name = "Image")]
+        public IFormFile ImageFile { get; set; }
     }
 }

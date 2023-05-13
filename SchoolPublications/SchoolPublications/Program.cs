@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolPublications.DAL;
+using SchoolPublications.DAL.Entities;
+using SchoolPublications.Helpers;
+using SchoolPublications.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,28 @@ builder.Services.AddDbContext<DatabaseContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddIdentity<User, IdentityRole>(io =>
+{
+    io.User.RequireUniqueEmail = true; //Valida que el email no esté repetido
+    io.Password.RequireDigit = false;
+    io.Password.RequiredUniqueChars = 0;
+    io.Password.RequireLowercase = false;
+    io.Password.RequireNonAlphanumeric = false;
+    io.Password.RequireUppercase = false;
+    io.Password.RequiredLength = 6;
+
+}).AddEntityFrameworkStores<DatabaseContext>();
+
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Unauthorized";
+    options.AccessDeniedPath = "/Account/Unauthorized";
+});
+
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.AddScoped<IUserHelper, UserHelper>();
+builder.Services.AddScoped<IAzureBlobHelper, AzureBlobHelper>();
 
 var app = builder.Build();
 
@@ -26,7 +52,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
