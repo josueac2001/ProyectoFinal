@@ -37,6 +37,7 @@ namespace SchoolPublications.DAL.Entities
         [Display(Name = "Fecha de ingreso")]
         public DateTime? AdmissionDate { get; set; }
 
+        public ICollection<Publication> Publications { get; set; }
         //Propiedades de Lectura
         [Display(Name = "Usuario")]
         public string FullName => $"{FirstName} {LastName}";
