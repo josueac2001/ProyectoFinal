@@ -25,6 +25,7 @@ namespace SchoolPublications.DAL.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public Category Category { get; set; }
         public User User { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
     }
 }
