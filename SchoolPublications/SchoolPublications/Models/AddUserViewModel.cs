@@ -1,6 +1,7 @@
 ﻿using SchoolPublications.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using SchoolPublications.DAL.Entities;
 
 namespace SchoolPublications.Models
 {
@@ -25,7 +26,24 @@ namespace SchoolPublications.Models
         [StringLength(20, MinimumLength = 6, ErrorMessage = "El campo {0} debe tener entre {2} y {1} carácteres.")] //New DataAnnotation
         public string PasswordConfirm { get; set; }
 
+  
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
+
+        [Display(Name = "Documento")]
+        [MaxLength(20, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string Document { get; set; }
+
+        [Display(Name = "Nombres")]
+        [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Apellidos")]
+        [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string LastName { get; set; }
     }
 }
+
