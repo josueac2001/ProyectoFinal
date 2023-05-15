@@ -4,11 +4,14 @@ using SchoolPublications.DAL;
 using SchoolPublications.DAL.Entities;
 using SchoolPublications.Helpers;
 using SchoolPublications.Services;
+using System.Text.Json.Serialization;
+using static SchoolPublications.DAL.Seeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddDbContext<DatabaseContext>(o =>
 {
@@ -34,12 +37,28 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/Unauthorized";
 });
 
+
+
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.AddTransient<SeederDb>();
 builder.Services.AddScoped<IUserHelper, UserHelper>();
 builder.Services.AddScoped<IAzureBlobHelper, AzureBlobHelper>();
 
 var app = builder.Build();
 
+app.UseRequestLocalization();
+
+SeederData();
+void SeederData()
+{
+    IServiceScopeFactory? scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (IServiceScope? scope = scopedFactory.CreateScope())
+    {
+        SeederDb? service = scope.ServiceProvider.GetService<SeederDb>();
+        service.SeederAsync().Wait();
+    }
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

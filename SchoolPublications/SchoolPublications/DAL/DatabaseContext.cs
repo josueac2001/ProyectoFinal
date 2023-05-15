@@ -21,10 +21,10 @@ namespace SchoolPublications.DAL
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
-            modelBuilder.Entity<Publication>().HasIndex("Id", "Category.Id").IsUnique();
-            modelBuilder.Entity<Approval>().HasIndex("Id", "Publication.Id").IsUnique();
-            modelBuilder.Entity<Comment>().HasIndex("Id", "Publication.Id").IsUnique();
-            //modelBuilder.Entity<Notification>().HasIndex("Id", "Approval.Id").IsUnique();
+            modelBuilder.Entity<Publication>().HasIndex("Id", "CategoryId").IsUnique();
+            modelBuilder.Entity<Approval>().HasIndex("Id", "PublicationId").IsUnique();
+            modelBuilder.Entity<Comment>().HasIndex("Id", "PublicationId").IsUnique();
+            //modelBuilder.Entity<Notification>().HasIndex("Id", "ApprovalId").IsUnique();
 
         }
 

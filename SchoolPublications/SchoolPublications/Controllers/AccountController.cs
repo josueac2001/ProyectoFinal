@@ -9,9 +9,8 @@ namespace SchoolPublications.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly DatabaseContext _context;
-       
 
-        public AccountController(IUserHelper userHelper, DatabaseContext context)
+        public AccountController(IUserHelper userHelper, DatabaseContext context, IAzureBlobHelper azureBlobHelper)
         {
             _userHelper = userHelper;
             _context = context;
@@ -60,4 +59,3 @@ namespace SchoolPublications.Controllers
 
     }
 }
-
