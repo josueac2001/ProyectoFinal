@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolPublications.DAL;
 
@@ -11,9 +12,11 @@ using SchoolPublications.DAL;
 namespace SchoolPublications.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230515231328_ApprovalDroped")]
+    partial class ApprovalDroped
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,16 +188,13 @@ namespace SchoolPublications.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CommentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
                     b.Property<Guid>("PublicationId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remark")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -220,17 +220,18 @@ namespace SchoolPublications.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ImageId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Title")
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Tittle")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -415,11 +416,13 @@ namespace SchoolPublications.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolPublications.DAL.Entities.User", null)
+                    b.HasOne("SchoolPublications.DAL.Entities.User", "User")
                         .WithMany("Publications")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SchoolPublications.DAL.Entities.Publication", b =>

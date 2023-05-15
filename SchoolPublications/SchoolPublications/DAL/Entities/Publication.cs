@@ -9,22 +9,25 @@ namespace SchoolPublications.DAL.Entities
         [Display(Name = "Titulo")]
         [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Tittle { get; set; }
+        public string Title { get; set; }
 
-        [Display(Name = "Contenido")]
-        [MaxLength(500, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
-        public string Content { get; set; }
+        [Display(Name = "Descripción")]
+        public string Description { get; set; }
 
-     
+        [Display(Name = "Foto")]
+        public Guid ImageId { get; set; }
+
+        [Display(Name = "Foto")]
+        public string ImageFullPath => ImageId == Guid.Empty
+            ? $"https://localhost:7048/images/NoImage.png"
+            : $"https://sales2023.blob.core.windows.net/users/{ImageId}";
+
         [Display(Name = "Fecha de publicacion")]
         public DateTime PublicationDate { get; set; }
-
-        public Boolean State { get; set; }
 
         [Display(Name = "Categoria")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public Category Category { get; set; }
-        public User User { get; set; }
         public ICollection<Comment> Comments { get; set; }
 
     }
