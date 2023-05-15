@@ -1,13 +1,10 @@
-﻿
-using SchoolPublications.DAL.Entities;
+﻿using SchoolPublications.DAL.Entities;
 using SchoolPublications.Enums;
 using SchoolPublications.Helpers;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace SchoolPublications.DAL
 {
-    public class Seeder
-    {
         public class SeederDb
         {
             private readonly DatabaseContext _context;
@@ -26,6 +23,7 @@ namespace SchoolPublications.DAL
                 await _context.Database.EnsureCreatedAsync();
                 await PopulateRolesAsync();
                 await PopulateUserAsync("Steve", "Jobs", "admin@gmail.com", "3002323232","102030", "SteveJobs.png", UserType.Admin);
+                await PopulateUserAsync("Bill", "Gates", "bill_gates_admin@yopmail.com", "4005656656", "405060", "BillGates.png", UserType.User);
 
                 await _context.SaveChangesAsync();
 
@@ -73,4 +71,3 @@ namespace SchoolPublications.DAL
             }  
         }
     }
-}

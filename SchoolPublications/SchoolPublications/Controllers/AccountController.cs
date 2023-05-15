@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SchoolPublications.DAL;
+﻿using SchoolPublications.DAL;
+using SchoolPublications.DAL.Entities;
+using SchoolPublications.Enums;
 using SchoolPublications.Helpers;
 using SchoolPublications.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace SchoolPublications.Controllers
 {
@@ -50,12 +54,9 @@ namespace SchoolPublications.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Unauthorized()
-        {
-            return View();
-        }
-
-
-
+        //public IActionResult Unauthorized()                      // //Vista de retorno en caso no estar autorizado
+        //{
+        //    return View();
+        //}
     }
 }
