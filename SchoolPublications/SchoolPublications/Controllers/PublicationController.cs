@@ -5,8 +5,6 @@ using SchoolPublications.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
 namespace SchoolPublications.Controllers
 {
     [Authorize(Roles = "Admin")]
