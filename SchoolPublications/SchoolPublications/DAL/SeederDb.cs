@@ -53,7 +53,7 @@ namespace SchoolPublications.DAL
 
                     user = new User
                     {
-                        AdmissionDate = DateTime.Now,
+                        //AdmissionDate = DateTime.Now,
                         FirstName = firstName,
                         LastName = lastName,
                         Email = email,
