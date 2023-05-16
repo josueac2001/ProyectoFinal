@@ -9,9 +9,9 @@ using static SchoolPublications.DAL.SeederDb;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-//builder.Services.AddControllersWithViews()
-//    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+//Add services to the container.
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddDbContext<DatabaseContext>(o =>
 {
@@ -40,25 +40,26 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-//builder.Services.AddTransient<SeederDb>(); // esta saliendo un error al ejecutar el seeder. arreglar esto
+builder.Services.AddTransient<SeederDb>(); // esta saliendo un error al ejecutar el seeder. arreglar esto
 builder.Services.AddScoped<IUserHelper, UserHelper>();
 builder.Services.AddScoped<IAzureBlobHelper, AzureBlobHelper>();
+builder.Services.AddScoped<IDropDownListsHelper, DropDownListsHelper>();
 
 var app = builder.Build();
 
 app.UseRequestLocalization();
 
-//SeederData();
-//void SeederData()
-//{
-//    IServiceScopeFactory? scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+SeederData();
+void SeederData()
+{
+    IServiceScopeFactory? scopedFactory = app.Services.GetService<IServiceScopeFactory>();
 
-//    using (IServiceScope? scope = scopedFactory.CreateScope())
-//    {
-//        SeederDb? service = scope.ServiceProvider.GetService<SeederDb>();
-//        service.SeederAsync().Wait();
-//    }
-//}
+    using (IServiceScope? scope = scopedFactory.CreateScope())
+    {
+        SeederDb? service = scope.ServiceProvider.GetService<SeederDb>();
+        service.SeederAsync().Wait();
+    }
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
