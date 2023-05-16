@@ -1,7 +1,6 @@
 ﻿using SchoolPublications.DAL.Entities;
 using SchoolPublications.Enums;
 using SchoolPublications.Helpers;
-using Microsoft.EntityFrameworkCore;
 
 namespace SchoolPublications.DAL
 {
