@@ -1,7 +1,6 @@
 ﻿using SchoolPublications.Enums;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using SchoolPublications.DAL.Entities;
+
 
 namespace SchoolPublications.Models
 {
