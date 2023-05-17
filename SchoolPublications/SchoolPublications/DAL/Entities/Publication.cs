@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
+
 
 namespace SchoolPublications.DAL.Entities
 {
@@ -14,21 +14,26 @@ namespace SchoolPublications.DAL.Entities
         [Display(Name = "Descripción")]
         public string Description { get; set; }
 
-        [Display(Name = "Foto")]
-        public Guid ImageId { get; set; }
-
-        [Display(Name = "Foto")]
-        public string ImageFullPath => ImageId == Guid.Empty
-            ? $"https://localhost:7048/images/NoImage.png"
-            : $"https://sales2023.blob.core.windows.net/users/{ImageId}";
-
         [Display(Name = "Fecha de publicacion")]
         public DateTime PublicationDate { get; set; }
 
         [Display(Name = "Categoria")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public Category Category { get; set; }
         public ICollection<Comment> Comments { get; set; }
+        public ICollection<PublicationCategory> PublicationCategories { get; set; }
+
+        [Display(Name = "Categorías")]
+        public int CategoriesNumber => PublicationCategories == null ? 0 : PublicationCategories.Count;
+
+        public ICollection<PublicationImage> PublicationImages { get; set; }
+
+        [Display(Name = "Número Fotos")]
+        public int ImagesNumber => PublicationImages == null ? 0 : PublicationImages.Count;
+
+        [Display(Name = "Foto")]
+        public string ImageFullPath => PublicationImages == null || PublicationImages.Count == 0
+            ? $"https://localhost:7048/images/NoImage.png"
+            : PublicationImages.FirstOrDefault().ImageFullPath;
 
     }
 }

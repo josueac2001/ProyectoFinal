@@ -1,7 +1,6 @@
 ﻿using SchoolPublications.Enums;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using SchoolPublications.DAL.Entities;
+
 
 namespace SchoolPublications.Models
 {
@@ -44,6 +43,9 @@ namespace SchoolPublications.Models
         [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string LastName { get; set; }
+
+        [Display(Name = "Fecha de ingreso")]
+        public DateTime? AdmissionDate { get; set; }
     }
 }
 

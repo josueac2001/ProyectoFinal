@@ -1,7 +1,6 @@
 ﻿using SchoolPublications.DAL.Entities;
 using SchoolPublications.Enums;
 using SchoolPublications.Helpers;
-using Microsoft.EntityFrameworkCore;
 
 namespace SchoolPublications.DAL
 {
@@ -66,7 +65,7 @@ namespace SchoolPublications.DAL
 
                     user = new User
                     {
-                        AdmissionDate = DateTime.Now,
+                        //AdmissionDate = DateTime.Now,
                         FirstName = firstName,
                         LastName = lastName,
                         Email = email,

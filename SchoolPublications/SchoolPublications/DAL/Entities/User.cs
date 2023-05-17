@@ -34,9 +34,6 @@ namespace SchoolPublications.DAL.Entities
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
 
-        [Display(Name = "Fecha de ingreso")]
-        public DateTime? AdmissionDate { get; set; }
-
         public ICollection<Publication> Publications { get; set; }
         //Propiedades de Lectura
         [Display(Name = "Usuario")]
