@@ -9,13 +9,13 @@ namespace SchoolPublications.Controllers
 {
     [Authorize(Roles = "Admin")]
     [AllowAnonymous]
-    public class PublicationController : Controller
+    public class PublicationsController : Controller
     {
         private readonly DatabaseContext _context;
         private readonly IDropDownListsHelper _dropDownListsHelper;
         private readonly IAzureBlobHelper _azureBlobHelper;
 
-        public PublicationController(DatabaseContext context, IDropDownListsHelper dropDownListsHelper, IAzureBlobHelper azureBlobHelper)
+        public PublicationsController(DatabaseContext context, IDropDownListsHelper dropDownListsHelper, IAzureBlobHelper azureBlobHelper)
         {
             _context = context;
             _dropDownListsHelper = dropDownListsHelper;
