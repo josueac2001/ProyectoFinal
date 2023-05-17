@@ -28,6 +28,18 @@ namespace SchoolPublications.DAL
 
             }
 
+            private async Task PopulateCategoriesAsync()
+            {
+                if (!_context.Categories.Any())
+                {
+                    _context.Categories.Add(new Category { Name = "Tecnología", Description = "Elementos tech", CreatedDate = DateTime.Now });
+                    _context.Categories.Add(new Category { Name = "Implementos de Aseo", Description = "Detergente, jabón, etc.", CreatedDate = DateTime.Now });
+                    _context.Categories.Add(new Category { Name = "Ropa interior", Description = "Tanguitas, narizonas", CreatedDate = DateTime.Now });
+                    _context.Categories.Add(new Category { Name = "Gamers", Description = "PS5, XBOX SERIES", CreatedDate = DateTime.Now });
+                    _context.Categories.Add(new Category { Name = "Mascotas", Description = "Concentrado, jabón para pulgas.", CreatedDate = DateTime.Now });
+                }
+            }
+
             private async Task PopulateRolesAsync()
             {
                 await _userHelper.CheckRoleAsync(UserType.Admin.ToString());

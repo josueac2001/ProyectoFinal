@@ -13,6 +13,8 @@ namespace SchoolPublications.DAL.Entities
         [Display(Name = "Fecha de Comentario")]
         public DateTime CommentDate { get; set; }
         public User User { get; set; }
+
+        [Display(Name = "Publicación")]
         public Publication Publication { get; set; }
     }
 }
