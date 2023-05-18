@@ -1,0 +1,16 @@
+@model SchoolPublications.DAL.Entities.Comment
+
+@using (Html.BeginForm("Create", "Comment"))
+{
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Content)
+    @Html.TextBoxFor(model => model.Content, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-group">
+    <input type="submit" value="Create" class="btn btn-primary" />
+</div>
+}
