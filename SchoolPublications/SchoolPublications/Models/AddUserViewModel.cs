@@ -44,8 +44,6 @@ namespace SchoolPublications.Models
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string LastName { get; set; }
 
-        [Display(Name = "Fecha de ingreso")]
-        public DateTime? AdmissionDate { get; set; }
     }
 }
 

@@ -33,7 +33,5 @@ namespace SchoolPublications.Models
         [Display(Name = "Image")]
         public IFormFile ImageFile { get; set; }
 
-        [Display(Name = "Fecha de ingreso")]
-        public DateTime? AdmissionDate { get; set; }
     }
 }

@@ -86,7 +86,6 @@ namespace SchoolPublications.Controllers
                     imageId = await _azureBlobHelper.UploadAzureBlobAsync(addUserViewModel.ImageFile, "users");
 
                 addUserViewModel.ImageId = imageId;
-                //addUserViewModel.AdmissionDate = DateTime.Now;
 
                 User user = await _userHelper.AddUserAsync(addUserViewModel);
                 if (user == null)
@@ -123,7 +122,6 @@ namespace SchoolPublications.Controllers
                 ImageId = user.ImageId,
                 Id = Guid.Parse(user.Id),
                 Document = user.Document,
-                //AdmissionDate = DateTime.Now
                 
             };
 
