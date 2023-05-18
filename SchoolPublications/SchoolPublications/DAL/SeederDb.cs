@@ -32,8 +32,8 @@ namespace SchoolPublications.DAL
             {
                 if (!_context.Categories.Any())
                 {
-                    _context.Categories.Add(new Category { Name = "Tecnología", Description = "Elementos tech"});
-                    _context.Categories.Add(new Category { Name = "Implementos de Aseo", Description = "Detergente, jabón, etc." });
+                    _context.Categories.Add(new Category { Name = "Romance", Description = "Elementos tech"});
+                    _context.Categories.Add(new Category { Name = "Acción", Description = "Detergente, jabón, etc." });
                     _context.Categories.Add(new Category { Name = "Ropa interior", Description = "Tanguitas, narizonas" });
                     _context.Categories.Add(new Category { Name = "Gamers", Description = "PS5, XBOX SERIES" });
                     _context.Categories.Add(new Category { Name = "Mascotas", Description = "Concentrado, jabón para pulgas." });

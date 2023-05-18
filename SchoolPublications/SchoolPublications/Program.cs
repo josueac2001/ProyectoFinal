@@ -5,7 +5,6 @@ using SchoolPublications.DAL.Entities;
 using SchoolPublications.Helpers;
 using SchoolPublications.Services;
 using System.Text.Json.Serialization;
-using static SchoolPublications.DAL.SeederDb;
 
 var builder = WebApplication.CreateBuilder(args);
 
