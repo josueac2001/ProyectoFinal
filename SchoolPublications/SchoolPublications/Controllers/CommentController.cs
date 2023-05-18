@@ -1,73 +1,116 @@
-﻿//using SchoolPublications.DAL;
-//using SchoolPublications.DAL.Entities;
-//using SchoolPublications.Enums;
-//using SchoolPublications.Helpers;
-//using SchoolPublications.Models;
-//using Microsoft.AspNetCore.Identity;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
+﻿using SchoolPublications.DAL;
+using SchoolPublications.DAL.Entities;
+using SchoolPublications.Enums;
+using SchoolPublications.Helpers;
+using SchoolPublications.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-//namespace SchoolPublications.Controllers
-//{
-//    public class AccountController : Controller
-//    {
-//        private readonly IUserHelper _userHelper;
-//        private readonly DatabaseContext _context;
+namespace SchoolPublications.Controllers
+{
+    [Authorize(Roles = "Admin")]
+    [AllowAnonymous]
+    public class AccountController : Controller
+    {
+        private readonly ICommentRepository _commentRepository;
 
-//        public AccountController(IUserHelper userHelper, DatabaseContext context, IAzureBlobHelper azureBlobHelper)
-//        {
-//            _userHelper = userHelper;
-//            _context = context;
-           
-//        }
+        public CommentController(ICommentRepository commentRepository)
+        {
+            _commentRepository = commentRepository;
+        }
 
-//        [HttpGet]
-//        public IActionResult Login()
-//        {
-//            if (User.Identity.IsAuthenticated)
-//            {
-//                return RedirectToAction("Index", "Home");
-//            }
+        // Acción para mostrar los comentarios de una publicación específica
+        public IActionResult Index(int publicationId)
+        {
+            var comments = _commentRepository.GetCommentsByPublicationId(publicationId);
+            return View(comments);
+        }
 
-//            return View(new LoginViewModel());
-//        }
+        // Acción para crear un nuevo comentario
+        [HttpPost]
+        public IActionResult Create(Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                comment.CommentDate = DateTime.Now;
+                _commentRepository.Add(comment);
+                return RedirectToAction("Index", new { publicationId = comment.Publication.Id });
+            }
 
-//        [HttpPost]
-//        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                Microsoft.AspNetCore.Identity.SignInResult result = await _userHelper.LoginAsync(loginViewModel);
-//                if (result.Succeeded)
-//                {
-//                    return RedirectToAction("Index", "Home");
-//                }
+            // Si hay errores de validación, regresar a la vista de creación con los errores mostrados
+            return View(comment);
+        }
 
-//                ModelState.AddModelError(string.Empty, "Email o contraseña incorrectos.");
-//            }
-//            return View(loginViewModel);
-//        }
+        // Acción para editar un comentario existente
+        public IActionResult Edit(int id)
+        {
+            var comment = _commentRepository.GetCommentById(id);
 
-//        public async Task<IActionResult> Logout()
-//        {
-//            await _userHelper.LogoutAsync();
-//            return RedirectToAction("Index", "Home");
-//        }
+            if (comment == null)
+            {
+                return NotFound();
+            }
 
-//        // GET: Categories/Edit/5
-//        public async Task<IActionResult> Edit(Guid? id)
-//        {
-//            if (id == null || _context.Categories == null) return NotFound();
-     
-//            Category category = await _context.Categories.FindAsync(id);
-//            if (category == null) return NotFound();
-//            return View(category);
-//        }
+            return View(comment);
+        }
 
+        [HttpPost]
+        public IActionResult Edit(Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                _commentRepository.Update(comment);
+                return RedirectToAction("Index", new { publicationId = comment.Publication.Id });
+            }
 
-//        //public IActionResult Unauthorized()                      // //Vista de retorno en caso no estar autorizado
-//        //{
-//        //    return View();
-//        //}
-//    }
-//}
+            // Si hay errores de validación, regresar a la vista de edición con los errores mostrados
+            return View(comment);
+        }
+
+        // Acción para mostrar los detalles de un comentario
+        public IActionResult Details(int id)
+        {
+            var comment = _commentRepository.GetCommentById(id);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            return View(comment);
+        }
+
+        // Acción para eliminar un comentario
+        public IActionResult Delete(int id)
+        {
+            var comment = _commentRepository.GetCommentById(id);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            return View(comment);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var comment = _commentRepository.GetCommentById(id);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            _commentRepository.Delete(comment);
+            return RedirectToAction("Index", new { publicationId = comment.Publication.Id });
+        }
+
+        //public IActionResult Unauthorized()                      // //Vista de retorno en caso no estar autorizado
+        //{
+        //    return View();
+        //}
+    }
+}
