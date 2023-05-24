@@ -110,7 +110,7 @@ namespace SchoolPublications.Controllers
         }
 
         //public IActionResult Unauthorized()                      // //Vista de retorno en caso no estar autorizado
-        //{
+{
         //    return View();
         //}
     }
