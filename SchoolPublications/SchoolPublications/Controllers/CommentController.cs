@@ -6,12 +6,13 @@ using SchoolPublications.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolPublications.Controllers
 {
     [Authorize(Roles = "Admin")]
     [AllowAnonymous]
-    public class AccountController : Controller
+    public class CommentController : Controller
     {
         private readonly ICommentRepository _commentRepository;
 
