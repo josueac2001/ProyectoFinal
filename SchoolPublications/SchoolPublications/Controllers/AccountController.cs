@@ -55,7 +55,7 @@ namespace SchoolPublications.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Unauthorized()                      // //Vista de retorno en caso no estar autorizado
+        public IActionResult Unauthorized()
         {
             return View();
         }

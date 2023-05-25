@@ -1,38 +1,31 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
-using SchoolPublications.DAL;
+﻿using SchoolPublications.DAL;
 using SchoolPublications.DAL.Entities;
 using SchoolPublications.Enums;
 using SchoolPublications.Helpers;
 using SchoolPublications.Models;
-using SchoolPublications.Services;
-using System.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace SchoolPublications.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class UsersController
+    public class UsersController : Controller
     {
         private readonly IUserHelper _userHelper;
         private readonly DatabaseContext _context;
-        //private readonly IDropDownListsHelper _ddlHelper;                         Necesarios para el DropDownLists
-        //private readonly IAzureBlobHelper _azureBlobHelper;
+        private readonly IAzureBlobHelper _azureBlobHelper;
 
-        public UsersController(IUserHelper userHelper, DatabaseContext context, IDropDownListsHelper dropDownListsHelper, IAzureBlobHelper azureBlobHelper)
+        public UsersController(IUserHelper userHelper, DatabaseContext context, IAzureBlobHelper azureBlobHelper)
         {
             _userHelper = userHelper;
             _context = context;
-            //_ddlHelper = dropDownListsHelper;                                             Igualmente esta parte, pero de momento quedará comentareada
-            //_azureBlobHelper = azureBlobHelper;
+            _azureBlobHelper = azureBlobHelper;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users
-                .Include(u => u.Document)
-                .ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
         [HttpGet]
@@ -49,9 +42,31 @@ namespace SchoolPublications.Controllers
             return View(addUserViewModel);
         }
 
-        private IActionResult View(object value)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAdmin(AddUserViewModel addUserViewModel)
         {
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                Guid imageId = Guid.Empty;
+
+                if (addUserViewModel.ImageFile != null)
+                    imageId = await _azureBlobHelper.UploadAzureBlobAsync(addUserViewModel.ImageFile, "users");
+
+                addUserViewModel.ImageId = imageId;
+
+                User user = await _userHelper.AddUserAsync(addUserViewModel);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Este correo ya está siendo usado.");
+                    return View(addUserViewModel);
+                }
+
+                return RedirectToAction("Index", "Users");
+            }
+
+            return View(addUserViewModel);
         }
+
     }
 }

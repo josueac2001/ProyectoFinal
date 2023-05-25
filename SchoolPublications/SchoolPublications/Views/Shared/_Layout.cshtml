@@ -26,16 +26,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area=""  asp-controller="Home" asp-action="Privacy">Políticas de Privacidad 
-                                <ion-icon name="airplane-outline"></ion-icon>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categoría</a>
+                            <a class="nav-link text-dark" asp-area=""  asp-controller="Home" asp-action="Privacy">Políticas de Privacidad </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Publication" asp-action="Index">Publicaciones</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categoría</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Usuarios</a>
+                            </li>
+                        }
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         @if (User.Identity.IsAuthenticated)
@@ -44,13 +48,17 @@
                                 <a class="nav-link text-dark" asp-area="">@User.Identity.Name</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Cerrar Sesión</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Cerrar Sesión
+                                    <ion-icon name="log-out-outline"></ion-icon>
+                                </a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión
+                                    <ion-icon name="log-in-outline"></ion-icon>
+                                </a>
                             </li>
                         }
                     </ul>
