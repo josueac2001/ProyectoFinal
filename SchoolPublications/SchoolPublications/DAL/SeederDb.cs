@@ -20,6 +20,8 @@ namespace SchoolPublications.DAL
             public async Task SeederAsync()
             {
                 await _context.Database.EnsureCreatedAsync();       //Patrón de diseño para crear la base de datos
+                await PopulateCategoriesAsync();
+                await PopulatePublicationsAsync();
                 await PopulateRolesAsync();
                 await PopulateUserAsync("Steve", "Jobs", "admin@gmail.com", "3002323232","102030", "SteveJobs.png", UserType.Admin);
                 await PopulateUserAsync("Bill", "Gates", "bill_gates_admin@yopmail.com", "4005656656", "405060", "BillGates.png", UserType.User);
@@ -65,6 +67,18 @@ namespace SchoolPublications.DAL
                             Comments = new List<Comment>
                             {
                                 new Comment { Text = "Muy interesante.", CreatedDate = DateTime.Now }
+                            }
+                        },
+                        new Publication
+                        {
+                            Title = "Publicación 3",
+                            Content = "Contenido de la publicación 3",
+                            CreatedDate = DateTime.Now,
+                            Comments = new List<Comment>
+                            {
+                                new Comment { Text = "Grandioso, es el mejor contenido que he leído.", CreatedDate = DateTime.Now }
+                                new Comment { Text = "Que agradable texto.", CreatedDate = DateTime.Now }
+                                new Comment { Text = "Potaxio.", CreatedDate = DateTime.Now }
                             }
                         }
                     });
