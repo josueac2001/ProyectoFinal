@@ -23,10 +23,8 @@ namespace SchoolPublications.DAL
                 await PopulateCategoriesAsync();
                 await PopulatePublicationsAsync();
                 await PopulateRolesAsync();
-                await PopulateUserAsync("Steve", "Jobs", "admin@gmail.com", "3002323232","102030", "SteveJobs.png", UserType.Admin);
-                await PopulateUserAsync("Bill", "Gates", "bill_gates_admin@yopmail.com", "4005656656", "405060", "BillGates.png", UserType.User);
-                await PopulateUserAsync("John", "Doe", "john.doe@example.com", "123456789", "123 Main St", "ABC123", "john-doe.png", UserType.User);
-                await PopulateUserAsync("Jane", "Smith", "jane.smith@example.com", "987654321", "456 Elm St", "XYZ789", "jane-smith.png", UserType.User);
+                await PopulateUserAsync("John", "Doe", "john.doe@example.com", "3052356508", "ABC123", "Leo.png", UserType.Admin);
+                await PopulateUserAsync("Jane", "Smith", "jane.smith@example.com", "3184985640", "abc123", "Kendall.png", UserType.User);
 
             await _context.SaveChangesAsync();
 
