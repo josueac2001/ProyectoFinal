@@ -45,40 +45,12 @@ namespace SchoolPublications.DAL
 
             private async Task PopulatePublicationsAsync()
             {
-                if (!_context.Products.Any())
-                {
-                    await AddPublicationsAsync("Medias Grises", 270000M, 12F, new List<string>() { "Ropa Interior", "Calzado" }, new List<string>() { "Medias1.png" });
-                    await AddProductAsync("Medias Negras", 300000M, 12F, new List<string>() { "Ropa Interior", "Calzado" }, new List<string>() { "Medias2.png" });
-                    await AddProductAsync("TV Samsung OLED", 5000000M, 12F, new List<string>() { "Tecnología", "Gamers" }, new List<string>() { "TvOled.png", "TvOled2.png" });
-                    await AddProductAsync("Play Station 5", 5000000M, 12F, new List<string>() { "Gamers" }, new List<string>() { "PS5.png", "PS52.png" });
-                    await AddProductAsync("Bull Dog Francés", 10000000M, 12F, new List<string>() { "Mascotas" }, new List<string>() { "Frenchie1.png", "Frenchie2.png", "Frenchie3.png" });
-                    await AddProductAsync("Cepillo de dientes", 5000M, 12F, new List<string>() { "Implementos de Aseo" }, new List<string>() { "CepilloDientes.png" });
-                    await AddProductAsync("Crema dental Pro Alivio", 25000M, 12F, new List<string>() { "Implementos de Aseo" }, new List<string>() { "CremaDental1.png", "CremaDental2.png" });
-                }
-            }
-        private async Task PopulatePublicationsAsync()
-            {
                 if (!_context.Publications.Any())
                 {
-                    _context.Publications.Add(new Publication
-                    {
-                        Title = "Cien años de soledad",
-                        Content = "La historia épica de la familia Buendía a lo largo de varias generaciones, llena de amor, tragedia y realismo mágico.",
-                        CreatedDate = DateTime.Now,
-                        Comments = new List<Comment>()
-                        {
-                            new Comment { Text = "¡Una novela fascinante!", CreatedDate = DateTime.Now },
-                            new Comment { Text = "La narrativa es increíble.", CreatedDate = DateTime.Now }
-                            new Comment { Text = "No tengo palabras para expresar lo increíble que esta novela.", CreatedDate = DateTime.Now }
-                            new Comment { Text = "LMe asombra el caracter de estos personajes", CreatedDate = DateTime.Now }
-                                 
-                        }
-                    }
-                        }
-                    });
-
-                    await _context.Publications.AddRangeAsync(publications);
-                    await _context.SaveChangesAsync();
+                    await AddPublicationsAsync("Cien años de soledad", new List<string>() { "Novela", "Drama" }, new List<string>() { "Cien_Anios.png" });
+                    await AddPublicationsAsync("El resplandor", new List<string>() { "Terror" }, new List<string>() { "El_Resplandor.png" });
+                    await AddPublicationsAsync("Misión Imposible: Fallout", new List<string>() { "Acción" }, new List<string>() { "MI_Fallout.png", "MI_Fallout(2).png" });
+                    await AddPublicationsAsync("La lista de Schindler", new List<string>() { "Drama" }, new List<string>() { "La_lista.png" });
                 }
             }
 
