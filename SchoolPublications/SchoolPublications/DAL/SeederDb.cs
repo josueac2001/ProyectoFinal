@@ -1,4 +1,5 @@
-﻿using SchoolPublications.DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolPublications.DAL.Entities;
 using SchoolPublications.Enums;
 using SchoolPublications.Helpers;
 
@@ -8,13 +9,13 @@ namespace SchoolPublications.DAL
     {
         private readonly DatabaseContext _context;          //Accesos y conexiones
         private readonly IUserHelper _userHelper;
-        private readonly IAzureBlobHelper _azureBlobHelper;
+        //private readonly IAzureBlobHelper _azureBlobHelper;
 
-        public SeederDb(DatabaseContext context, IUserHelper userHelper, IAzureBlobHelper azureBlobHelper)
+        public SeederDb(DatabaseContext context, IUserHelper userHelper)
         {
             _context = context;
             _userHelper = userHelper;
-            _azureBlobHelper = azureBlobHelper;
+            //_azureBlobHelper = azureBlobHelper;
         }
 
         public async Task SeederAsync()
@@ -28,7 +29,7 @@ namespace SchoolPublications.DAL
 
             await _context.SaveChangesAsync();
 
-        } XmlConfigurationExtensions
+        } 
 
         private async Task PopulateCategoriesAsync()
         {
@@ -45,13 +46,37 @@ namespace SchoolPublications.DAL
         {
             if (!_context.Publications.Any())
             {
-                await AddPublicationsAsync("Cien años de soledad", new List<string>() { "Novela", "Drama" }, new List<string>() { "Cien_Anios.png" });
-                await AddPublicationsAsync("El resplandor", new List<string>() { "Terror" }, new List<string>() { "El_Resplandor.png" });
-                await AddPublicationsAsync("Misión Imposible: Fallout", new List<string>() { "Acción" }, new List<string>() { "MI_Fallout.png", "MI_Fallout(2).png" });
-                await AddPublicationsAsync("La lista de Schindler", new List<string>() { "Drama" }, new List<string>() { "La_lista.png" });
+                await AddPublicationAsync("Cien años de soledad", "sssssss",  new List<string>() { "Novela", "Drama" }, new List<string>() { "Cien_Anios.png" });
+                await AddPublicationAsync("El resplandor", "dfgdfg",  new List<string>() { "Terror" }, new List<string>() { "El_Resplandor.png" });
+                await AddPublicationAsync("Misión Imposible: Fallout", "dfgdfg",  new List<string>() { "Acción" }, new List<string>() { "MI_Fallout.png"});
+                await AddPublicationAsync("La lista de Schindler", "dfgdfg",  new List<string>() { "Drama" }, new List<string>() { "La_lista.png" });
             }
         }
+        private async Task AddPublicationAsync(string title, string description, List<string> categories, List<string> images)
+        {
+            Publication publication = new()
+            {
+                Title = title,
+                Description = description,
+                PublicationDate = DateTime.Now,
+                PublicationCategories = new List<PublicationCategory>(),
+                PublicationImages = new List<PublicationImage>()
+            };
 
+            foreach (string category in categories)
+            {
+                publication.PublicationCategories.Add(new PublicationCategory { Category = await _context.Categories.FirstOrDefaultAsync(c => c.Name == category) });
+            }
+
+            //foreach (string image in images)
+            //{
+            //    Guid imageId = await _azureBlobHelper.UploadAzureBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\publications\\{image}", "publications");
+            //    publication.PublicationImages.Add(new PublicationImage { ImageId = imageId });
+            //}
+
+            _context.Publications.Add(publication);
+            await _context.SaveChangesAsync();
+        }
         private async Task PopulateRolesAsync()
         {
             await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
@@ -70,10 +95,10 @@ namespace SchoolPublications.DAL
         {
             User user = await _userHelper.GetUserAsync(email);
 
-            if (user == null)
-            {
-                Guid imageId = await _azureBlobHelper.UploadAzureBlobAsync
-                    ($"{Environment.CurrentDirectory}\\wwwroot\\images\\users\\{image}", "users");
+            //if (user == null)
+            //{
+            //    Guid imageId = await _azureBlobHelper.UploadAzureBlobAsync
+            //        ($"{Environment.CurrentDirectory}\\wwwroot\\images\\users\\{image}", "users");
 
                 user = new User
                 {
@@ -85,39 +110,12 @@ namespace SchoolPublications.DAL
                     PhoneNumber = phone,
                     Document = document,
                     UserType = userType,
-                    ImageId = imageId
+                    //ImageId = imageId
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
                 await _userHelper.AddUserToRoleAsync(user, userType.ToString());
             }
         }
-
-        private async Task AddPublicationAsync(string title, string description, DateTime publicationDate, List<string> categories, List<string> images)
-        {
-            Publication publication = new()
-            {
-                Title = title,
-                Description = description,
-                PublicationDate = publicationDate,
-                Comments = new List<Comment>(),
-                PublicationCategories = new List<PublicationCategory>(),
-                PublicationImages = new List<PublicationImage>()
-            };
-
-            foreach (string category in categories)
-            {
-                publication.PublicationCategories.Add(new PublicationCategory { Category = await _context.Categories.FirstOrDefaultAsync(c => c.Name == category) });
-            }
-
-            foreach (string image in images)
-            {
-                Guid imageId = await _azureBlobHelper.UploadAzureBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\publications\\{image}", "publications");
-                publication.PublicationImages.Add(new PublicationImage { ImageId = imageId });
-            }
-
-            _context.Publications.Add(publication);
-            await _context.SaveChangesAsync();
-        }
     }
-}
+

@@ -17,9 +17,9 @@ namespace SchoolPublications.DAL.Entities
         [Display(Name = "Fecha de publicacion")]
         public DateTime PublicationDate { get; set; }
 
-        [Display(Name = "Categoria")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public ICollection<Comment> Comments { get; set; }
+        //[Display(Name = "Categoria")]
+        //[Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        //public ICollection<Comment> Comments { get; set; }
         public ICollection<PublicationCategory> PublicationCategories { get; set; }
 
         [Display(Name = "Categorías")]

@@ -1,4 +1,4 @@
-@model SchoolPublications.DAL.Entities.Comment
+@*@model SchoolPublications.DAL.Entities.Comment
 
 <h3>Estás seguro de que quieres eliminar el comentario?</h3>
 <div>
@@ -14,8 +14,9 @@
     </dl>
 
     @using (Html.BeginForm("Delete", "Comment", new { id = Model.Id }, FormMethod.Post))
-    {
-    <input type="submit" value="Delete" class="btn btn-danger" /> |
+    
+    <input type="submit" value="Delete" class="btn btn-danger" /> 
         <a asp-action="Index">Back to List</a>
-    }
+    
 </div>
+*@
